@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vyntra Web Shield — Women Safety</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a12;
+  --surface: #111120;
+  --surface2: #181830;
+  --border: rgba(255,255,255,0.07);
+  --pink: #ff3c7d;
+  --violet: #8b5cf6;
+  --cyan: #22d3ee;
+  --gold: #fbbf24;
+  --text: #f0f0f8;
+  --muted: #7070a0;
+  --danger: #ff2244;
+  --safe: #10e888;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 20%, rgba(255,60,125,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 85% 75%, rgba(139,92,246,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(34,211,238,0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ======= SCREEN SYSTEM ======= */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ======= NAVBAR ======= */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 2.5rem;
+  background: rgba(10,10,18,0.88);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--violet) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.logo span { opacity: 0.55; font-weight: 400; }
+.nav-right { display: flex; align-items: center; gap: 0.8rem; }
+.nav-shield {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.shield-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--safe); box-shadow: 0 0 10px var(--safe);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
+.nav-user-btn {
+  font-size: 0.78rem; color: var(--violet); font-weight: 600;
+  cursor: pointer; padding: 0.3rem 0.8rem;
+  border: 1px solid rgba(139,92,246,0.35); border-radius: 99px;
+  background: transparent; font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s;
+}
+.nav-user-btn:hover { background: rgba(139,92,246,0.12); }
+
+/* ======= LOGIN SCREEN ======= */
+#loginScreen {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 4rem 1.5rem 3rem;
+}
+.auth-hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.35rem 1rem; border-radius: 99px;
+  border: 1px solid rgba(255,60,125,0.3); background: rgba(255,60,125,0.08);
+  font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--pink); margin-bottom: 1.2rem;
+}
+.auth-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800; line-height: 1.08; letter-spacing: -0.03em;
+  text-align: center; margin-bottom: 0.6rem;
+}
+.auth-title em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--violet) 60%, var(--cyan) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.auth-sub {
+  color: var(--muted); font-size: 1rem; text-align: center;
+  line-height: 1.7; max-width: 420px; margin-bottom: 2.5rem;
+}
+.auth-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 22px; padding: 2.2rem; width: 100%; max-width: 440px;
+  position: relative; overflow: hidden;
+}
+.auth-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+}
+.form-tabs {
+  display: flex; gap: 0.4rem; margin-bottom: 1.8rem;
+  background: var(--surface2); border-radius: 12px; padding: 0.3rem;
+}
+.ftab {
+  flex: 1; padding: 0.6rem; border: none; background: transparent;
+  color: var(--muted); font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem; border-radius: 9px; cursor: pointer;
+  transition: all 0.2s; font-weight: 500;
+}
+.ftab.active {
+  background: linear-gradient(135deg, var(--violet), var(--pink));
+  color: #fff;
+}
+.form-body { display: none; }
+.form-body.active { display: block; }
+.fgroup { margin-bottom: 1.1rem; }
+.fgroup label {
+  display: block; font-size: 0.78rem; color: var(--muted);
+  margin-bottom: 0.45rem; letter-spacing: 0.04em;
+}
+.fgroup input {
+  width: 100%; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: 11px;
+  padding: 0.75rem 1rem; color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  outline: none; transition: border-color 0.2s;
+}
+.fgroup input:focus { border-color: var(--violet); }
+.fgroup input::placeholder { color: var(--muted); }
+.ferr {
+  font-size: 0.74rem; color: var(--danger);
+  margin-top: 0.3rem; display: none;
+}
+.btn-auth {
+  width: 100%;
+  background: linear-gradient(135deg, var(--violet), var(--pink));
+  border: none; border-radius: 12px; padding: 0.85rem;
+  color: #fff; font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 0.9rem; cursor: pointer;
+  letter-spacing: 0.05em; transition: opacity 0.2s, transform 0.1s;
+  margin-top: 0.5rem;
+}
+.btn-auth:hover { opacity: 0.87; }
+.btn-auth:active { transform: scale(0.98); }
+.auth-switch {
+  text-align: center; margin-top: 1rem;
+  font-size: 0.8rem; color: var(--muted);
+}
+.auth-switch a {
+  color: var(--violet); cursor: pointer; text-decoration: underline;
+}
+
+/* ======= DASHBOARD SCREEN ======= */
+#dashScreen { position: relative; z-index: 1; }
+.hero {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 4rem 2rem 2.5rem; gap: 0.9rem;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.35rem 1rem; border-radius: 99px;
+  border: 1px solid rgba(255,60,125,0.3); background: rgba(255,60,125,0.08);
+  font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--pink);
+}
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 800; line-height: 1.05; letter-spacing: -0.03em;
+}
+h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--violet) 60%, var(--cyan) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero p { max-width: 520px; color: var(--muted); font-size: 1.05rem; line-height: 1.7; }
+
+/* ======= MAIN GRID ======= */
+.main-grid {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.5rem; max-width: 900px;
+  margin: 0 auto 2rem; padding: 0 1.5rem;
+}
+@media (max-width: 680px) { .main-grid { grid-template-columns: 1fr; } }
+
+/* ======= CARDS ======= */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 1.75rem;
+  position: relative; overflow: hidden; transition: border-color 0.3s;
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+}
+.card:hover { border-color: rgba(255,60,125,0.2); }
+.card-label {
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.card-label::before { content: ''; width: 18px; height: 1px; background: var(--muted); }
+
+/* ======= SOS ======= */
+.sos-card {
+  grid-column: 1 / -1;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1.5rem; padding: 2.5rem;
+}
+.sos-wrapper {
+  position: relative; display: flex;
+  align-items: center; justify-content: center;
+}
+.sos-ring {
+  position: absolute; border-radius: 50%;
+  border: 2px solid rgba(255,34,68,0.4);
+  animation: sos-ring 2.5s ease-out infinite;
+}
+.sos-ring:nth-child(1){width:180px;height:180px;animation-delay:0s}
+.sos-ring:nth-child(2){width:220px;height:220px;animation-delay:.6s}
+.sos-ring:nth-child(3){width:260px;height:260px;animation-delay:1.2s}
+@keyframes sos-ring { 0%{transform:scale(.8);opacity:.8} 100%{transform:scale(1.2);opacity:0} }
+.sos-btn {
+  position: relative; z-index: 2;
+  width: 140px; height: 140px; border-radius: 50%; border: none; cursor: pointer;
+  background: radial-gradient(circle at 35% 35%, #ff5577, #cc0033);
+  box-shadow: 0 0 0 6px rgba(255,34,68,0.15), 0 0 40px rgba(255,34,68,0.4),
+              0 0 80px rgba(255,34,68,0.15), inset 0 2px 4px rgba(255,255,255,0.2);
+  transition: transform 0.15s, box-shadow 0.3s;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 0.2rem;
+  font-family: 'Syne', sans-serif;
+}
+.sos-btn:active { transform: scale(0.93); }
+.sos-btn .sos-text {
+  font-size: 2rem; font-weight: 800; color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5); letter-spacing: -0.02em;
+}
+.sos-btn .sos-sub {
+  font-size: 0.6rem; color: rgba(255,255,255,0.7);
+  letter-spacing: 0.15em; text-transform: uppercase;
+}
+.sos-btn.triggered { animation: sos-pulse 0.5s ease infinite alternate; }
+@keyframes sos-pulse {
+  from { box-shadow: 0 0 0 6px rgba(255,34,68,0.2), 0 0 40px rgba(255,34,68,0.5), 0 0 100px rgba(255,34,68,0.2); }
+  to   { box-shadow: 0 0 0 6px rgba(255,34,68,0.5), 0 0 70px rgba(255,34,68,0.8), 0 0 130px rgba(255,34,68,0.4); }
+}
+.sos-status { font-size: 0.85rem; color: var(--muted); text-align: center; }
+.sos-status.active { color: var(--danger); font-weight: 600; }
+
+/* ======= CONTACTS ======= */
+.contacts-list { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem; }
+.contact-item {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.75rem 1rem; transition: border-color 0.2s;
+}
+.contact-item:hover { border-color: rgba(139,92,246,0.3); }
+.contact-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--violet), var(--pink));
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+}
+.contact-info { flex: 1; min-width: 0; }
+.contact-name { font-weight: 500; font-size: 0.9rem; }
+.contact-phone { font-size: 0.75rem; color: var(--muted); }
+.contact-del {
+  background: none; border: none; color: var(--muted);
+  cursor: pointer; font-size: 1.1rem; transition: color 0.2s; padding: 0.2rem;
+}
+.contact-del:hover { color: var(--danger); }
+.add-contact-form { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.add-contact-form input {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 0.6rem 0.9rem; color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+  outline: none; transition: border-color 0.2s;
+}
+.add-contact-form input:focus { border-color: var(--violet); }
+.add-contact-form input::placeholder { color: var(--muted); }
+.add-contact-form .btn-add {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, var(--violet), var(--pink));
+  border: none; border-radius: 10px; padding: 0.65rem; color: #fff;
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem;
+  cursor: pointer; letter-spacing: 0.05em; transition: opacity 0.2s, transform 0.1s;
+}
+.add-contact-form .btn-add:hover { opacity: 0.85; }
+.add-contact-form .btn-add:active { transform: scale(0.98); }
+.contacts-count { font-size: 0.75rem; color: var(--muted); text-align: right; margin-top: 0.4rem; }
+
+/* ======= SIREN ======= */
+.siren-card { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; }
+.siren-btn {
+  width: 90px; height: 90px; border-radius: 50%;
+  border: 2px solid rgba(251,191,36,0.4); background: var(--surface2);
+  cursor: pointer; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0.2rem;
+  transition: all 0.3s; position: relative; overflow: hidden;
+}
+.siren-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle, rgba(251,191,36,0.15) 0%, transparent 70%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.siren-btn:hover::before { opacity: 1; }
+.siren-icon { font-size: 2rem; transition: filter 0.3s; }
+.siren-label { font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.siren-btn.on {
+  border-color: var(--gold);
+  box-shadow: 0 0 30px rgba(251,191,36,0.5), 0 0 60px rgba(251,191,36,0.2);
+  animation: siren-flash 0.5s ease-in-out infinite alternate;
+}
+@keyframes siren-flash {
+  from { background: #1a1508; }
+  to   { background: #2a2010; box-shadow: 0 0 50px rgba(251,191,36,0.7), 0 0 80px rgba(251,191,36,0.3); }
+}
+.siren-status { font-size: 0.8rem; color: var(--muted); text-align: center; }
+.siren-status.on { color: var(--gold); font-weight: 600; }
+.siren-bars { display: flex; align-items: flex-end; gap: 3px; height: 40px; justify-content: center; }
+.siren-bar { width: 4px; border-radius: 2px; background: var(--muted); opacity: 0.3; transition: all 0.3s; }
+.siren-btn.on ~ .siren-bars .siren-bar { background: var(--gold); opacity: 1; }
+.siren-btn.on ~ .siren-bars .siren-bar:nth-child(1){animation:bar-anim .4s ease infinite alternate;height:15px}
+.siren-btn.on ~ .siren-bars .siren-bar:nth-child(2){animation:bar-anim .35s ease .05s infinite alternate;height:30px}
+.siren-btn.on ~ .siren-bars .siren-bar:nth-child(3){animation:bar-anim .3s ease .1s infinite alternate;height:40px}
+.siren-btn.on ~ .siren-bars .siren-bar:nth-child(4){animation:bar-anim .35s ease .15s infinite alternate;height:28px}
+.siren-btn.on ~ .siren-bars .siren-bar:nth-child(5){animation:bar-anim .4s ease .2s infinite alternate;height:18px}
+.siren-btn.on ~ .siren-bars .siren-bar:nth-child(6){animation:bar-anim .3s ease .08s infinite alternate;height:35px}
+.siren-btn.on ~ .siren-bars .siren-bar:nth-child(7){animation:bar-anim .45s ease .12s infinite alternate;height:22px}
+@keyframes bar-anim { from{transform:scaleY(0.3)} to{transform:scaleY(1)} }
+.siren-bar:nth-child(1){height:12px}.siren-bar:nth-child(2){height:20px}.siren-bar:nth-child(3){height:28px}
+.siren-bar:nth-child(4){height:35px}.siren-bar:nth-child(5){height:25px}.siren-bar:nth-child(6){height:18px}
+.siren-bar:nth-child(7){height:30px}
+
+/* ======= FAKE CALL ======= */
+.call-card { display: flex; flex-direction: column; gap: 1rem; }
+.call-trigger-btn {
+  background: linear-gradient(135deg, #0f3a0f, #1a6b1a);
+  border: 1px solid rgba(16,232,136,0.3); border-radius: 12px;
+  padding: 0.9rem; color: var(--safe);
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem;
+  cursor: pointer; letter-spacing: 0.05em; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.call-trigger-btn:hover { border-color: var(--safe); box-shadow: 0 0 20px rgba(16,232,136,0.2); }
+
+/* ======= FAKE CALL OVERLAY ======= */
+.call-overlay {
+  position: fixed; inset: 0; z-index: 999;
+  background: linear-gradient(180deg, #0d2b0d 0%, #0a1a1a 60%, #0d0d1a 100%);
+  display: none; flex-direction: column; align-items: center;
+  justify-content: center; gap: 2rem;
+}
+.call-overlay.active { display: flex; }
+.call-time {
+  font-size: 0.8rem; color: rgba(255,255,255,0.4);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  position: absolute; top: 3rem;
+}
+.call-caller-pic {
+  width: 100px; height: 100px; border-radius: 50%;
+  background: linear-gradient(135deg, #2d5a27, #1a3a1a);
+  display: flex; align-items: center; justify-content: center; font-size: 3rem;
+  border: 3px solid rgba(16,232,136,0.3); box-shadow: 0 0 40px rgba(16,232,136,0.15);
+  animation: caller-pulse 2s ease-in-out infinite;
+}
+@keyframes caller-pulse {
+  0%,100%{box-shadow:0 0 40px rgba(16,232,136,0.15),0 0 0 0 rgba(16,232,136,0.3)}
+  50%{box-shadow:0 0 60px rgba(16,232,136,0.25),0 0 30px rgba(16,232,136,0.1)}
+}
+.call-caller-name { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: #fff; }
+.call-caller-sub { font-size: 0.85rem; color: rgba(255,255,255,0.5); letter-spacing: 0.05em; }
+.call-subtitle { font-size: 0.9rem; color: rgba(16,232,136,0.8); animation: blink 1.5s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+.call-message-box {
+  max-width: 320px; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+  padding: 1.25rem 1.5rem; text-align: center;
+}
+.call-hindi { font-size: 1.1rem; line-height: 1.7; color: rgba(255,255,255,0.9); margin-bottom: 0.5rem; }
+.call-translation { font-size: 0.75rem; color: rgba(255,255,255,0.35); font-style: italic; }
+.call-actions { display: flex; gap: 3rem; margin-top: 1rem; }
+.call-action { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; cursor: pointer; }
+.call-action-btn {
+  width: 68px; height: 68px; border-radius: 50%; border: none; cursor: pointer;
+  font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+.call-action-btn:active { transform: scale(0.92); }
+.call-action-btn.decline { background: radial-gradient(circle at 35% 35%, #ff5555, #cc0000); box-shadow: 0 0 20px rgba(255,34,34,0.4); }
+.call-action-btn.answer  { background: radial-gradient(circle at 35% 35%, #44ff88, #00aa44); box-shadow: 0 0 20px rgba(16,232,136,0.4); }
+.call-action span { font-size: 0.7rem; color: rgba(255,255,255,0.5); }
+
+/* ======= EVIDENCE ======= */
+.evidence-card { display: flex; flex-direction: column; gap: 1rem; }
+.location-display {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.9rem 1rem; font-size: 0.8rem;
+  color: var(--muted); display: flex; align-items: flex-start; gap: 0.6rem;
+}
+.location-icon { font-size: 1rem; flex-shrink: 0; margin-top: 0.1rem; }
+.location-text { line-height: 1.5; }
+.location-coords { color: var(--cyan); font-family: monospace; font-size: 0.75rem; margin-top: 0.2rem; }
+.evidence-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+.ev-btn {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 0.75rem 0.5rem; color: var(--text);
+  font-family: 'DM Sans', sans-serif; font-size: 0.8rem; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+  transition: all 0.2s;
+}
+.ev-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+.ev-btn.active { border-color: var(--danger); color: var(--danger); background: rgba(255,34,68,0.06); }
+.ev-btn .ev-icon { font-size: 1.3rem; }
+.ev-btn .ev-label { font-size: 0.68rem; letter-spacing: 0.06em; }
+.send-evidence-btn {
+  background: linear-gradient(135deg, var(--cyan), var(--violet));
+  border: none; border-radius: 12px; padding: 0.85rem; color: #fff;
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem;
+  cursor: pointer; letter-spacing: 0.05em; transition: opacity 0.2s, transform 0.1s;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.send-evidence-btn:hover { opacity: 0.85; }
+.send-evidence-btn:active { transform: scale(0.98); }
+
+/* ======= LOG ======= */
+.log-card { max-width: 900px; margin: 0 auto 3rem; padding: 0 1.5rem; position: relative; z-index: 1; }
+.log-title {
+  font-family: 'Syne', sans-serif; font-size: 0.75rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.log-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.log-feed {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 1.25rem; max-height: 200px;
+  overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem;
+}
+.log-feed::-webkit-scrollbar { width: 4px; }
+.log-feed::-webkit-scrollbar-track { background: transparent; }
+.log-feed::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.log-item { display: flex; gap: 0.75rem; font-size: 0.8rem; line-height: 1.4; animation: log-in 0.3s ease; }
+@keyframes log-in { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:translateX(0)} }
+.log-ts { color: var(--muted); flex-shrink: 0; font-family: monospace; font-size: 0.72rem; }
+.log-msg { color: var(--text); }
+.log-msg.warn  { color: #fbbf24; }
+.log-msg.danger { color: var(--danger); }
+.log-msg.safe  { color: var(--safe); }
+
+/* ======= SIREN OVERLAY ======= */
+.siren-overlay {
+  position: fixed; inset: 0; pointer-events: none; z-index: 500; opacity: 0;
+}
+.siren-overlay.on { animation: siren-color 0.5s ease-in-out infinite alternate; }
+@keyframes siren-color {
+  from { background: rgba(255,0,0,0.06); opacity: 1; }
+  to   { background: rgba(0,100,255,0.06); opacity: 1; }
+}
+
+/* ======= TOAST ======= */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.85rem 1.25rem; font-size: 0.85rem;
+  max-width: 320px; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  transform: translateY(80px); opacity: 0;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.pink  { border-color: rgba(255,60,125,0.4); }
+.toast.green { border-color: rgba(16,232,136,0.4); }
+.toast.gold  { border-color: rgba(251,191,36,0.4); }
+
+/* ======= FOOTER ======= */
+footer {
+  position: relative; z-index: 1; text-align: center;
+  padding: 2rem; color: var(--muted); font-size: 0.78rem;
+  border-top: 1px solid var(--border);
+}
+footer span {
+  background: linear-gradient(135deg, var(--pink), var(--violet));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 600;
+}
+
+/* ======= CAMERA OVERLAY ======= */
+.camera-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.95);
+  display: none; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1.5rem;
+}
+.camera-overlay.active { display: flex; }
+.camera-overlay h3 {
+  font-family: 'Syne', sans-serif; font-size: 1rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--cyan); margin: 0;
+}
+.camera-preview-wrap {
+  position: relative; border-radius: 16px; overflow: hidden;
+  border: 2px solid rgba(34,211,238,0.4);
+  box-shadow: 0 0 40px rgba(34,211,238,0.15);
+}
+#cameraVideo {
+  display: block; width: min(480px, 90vw);
+  aspect-ratio: 4/3; object-fit: cover; background: #000;
+}
+#cameraCanvas { display: none; }
+.cam-shutter-ring {
+  position: absolute; inset: 0; border-radius: 16px;
+  border: 3px solid var(--cyan); opacity: 0;
+  pointer-events: none; transition: opacity 0.1s;
+}
+.cam-shutter-ring.flash { opacity: 1; animation: cam-flash 0.35s ease forwards; }
+@keyframes cam-flash { 0%{opacity:1;background:rgba(255,255,255,0.25)} 100%{opacity:0;background:transparent} }
+.camera-actions { display: flex; gap: 1.2rem; align-items: center; }
+.cam-btn {
+  border: none; border-radius: 12px; cursor: pointer;
+  font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 0.85rem; letter-spacing: 0.05em;
+  padding: 0.75rem 1.4rem; transition: opacity 0.2s, transform 0.1s;
+}
+.cam-btn:active { transform: scale(0.96); }
+.cam-btn.snap {
+  background: radial-gradient(circle at 35% 35%, #ff5577, #cc0033);
+  color: #fff; font-size: 1rem; padding: 0 0;
+  width: 68px; height: 68px; border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(255,34,68,0.2), 0 0 25px rgba(255,34,68,0.4);
+  display: flex; align-items: center; justify-content: center;
+}
+.cam-btn.snap:hover { box-shadow: 0 0 0 6px rgba(255,34,68,0.35), 0 0 35px rgba(255,34,68,0.5); }
+.cam-btn.flip {
+  background: var(--surface2); border: 1px solid var(--border); color: var(--text);
+  padding: 0.65rem 1rem; border-radius: 10px;
+}
+.cam-btn.close-cam {
+  background: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--muted);
+  padding: 0.65rem 1rem; border-radius: 10px;
+}
+.cam-btn.close-cam:hover { border-color: var(--danger); color: var(--danger); }
+.cam-photo-strip {
+  display: flex; gap: 0.6rem; flex-wrap: wrap;
+  justify-content: center; max-width: min(480px, 90vw);
+}
+.cam-thumb {
+  width: 72px; height: 54px; object-fit: cover;
+  border-radius: 8px; border: 2px solid rgba(34,211,238,0.4);
+  cursor: pointer; transition: border-color 0.2s;
+}
+.cam-thumb:hover { border-color: var(--cyan); }
+.cam-count { font-size: 0.78rem; color: var(--muted); text-align: center; }
+.cam-save-btn {
+  background: linear-gradient(135deg, var(--cyan), var(--violet));
+  border: none; border-radius: 11px; padding: 0.75rem 2rem;
+  color: #fff; font-family: 'Syne', sans-serif; font-weight: 700;
+  font-size: 0.88rem; cursor: pointer; letter-spacing: 0.05em;
+  transition: opacity 0.2s; display: none;
+}
+.cam-save-btn:hover { opacity: 0.85; }
+.cam-save-btn.visible { display: inline-block; }
+</style>
+</head>
+<body>
+
+<div class="siren-overlay" id="sirenOverlay"></div>
+
+<!-- ============================================================
+     LOGIN / REGISTER SCREEN
+     ============================================================ -->
+<div id="loginScreen" class="screen active">
+  <nav>
+    <div class="logo">Vyntra <span>Web Shield</span></div>
+    <div class="nav-right">
+      <div class="nav-shield"><div class="shield-dot"></div>Protected</div>
+    </div>
+  </nav>
+
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;padding:3.5rem 1.5rem 3rem;">
+    <div class="auth-hero-badge">🛡️ Women Safety Platform</div>
+    <div class="auth-title">Your Safety,<br><em>One Tap Away</em></div>
+    <p class="auth-sub">Register once to unlock all emergency features — SOS alerts, live location, siren &amp; more.</p>
+
+    <div class="auth-card">
+      <!-- TABS -->
+      <div class="form-tabs">
+        <button class="ftab active" id="tabReg" onclick="switchTab('reg')">Register</button>
+        <button class="ftab"        id="tabLog" onclick="switchTab('log')">Login</button>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div class="form-body active" id="formReg">
+        <div class="fgroup">
+          <label>Full Name</label>
+          <input type="text" id="rName" placeholder="Enter your full name" maxlength="50">
+          <div class="ferr" id="eRName">Please enter your name</div>
+        </div>
+        <div class="fgroup">
+          <label>Email</label>
+          <input type="email" id="rEmail" placeholder="yourname@example.com">
+          <div class="ferr" id="eREmail">Enter a valid email address</div>
+        </div>
+        <div class="fgroup">
+          <label>Phone Number</label>
+          <input type="tel" id="rPhone" placeholder="+91 9876543210" maxlength="15">
+          <div class="ferr" id="eRPhone">Enter a valid phone number</div>
+        </div>
+        <div class="fgroup">
+          <label>Password</label>
+          <input type="password" id="rPass" placeholder="Minimum 6 characters">
+          <div class="ferr" id="eRPass">Password must be at least 6 characters</div>
+        </div>
+        <div class="fgroup">
+          <label>Confirm Password</label>
+          <input type="password" id="rConf" placeholder="Re-enter password">
+          <div class="ferr" id="eRConf">Passwords do not match</div>
+        </div>
+        <button class="btn-auth" onclick="doRegister()">🛡️ Complete Registration &amp; Activate SOS</button>
+        <div class="auth-switch">Already registered? <a onclick="switchTab('log')">Login here</a></div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div class="form-body" id="formLog">
+        <div class="fgroup">
+          <label>Email</label>
+          <input type="email" id="lEmail" placeholder="yourname@example.com">
+          <div class="ferr" id="eLEmail">Enter your registered email</div>
+        </div>
+        <div class="fgroup">
+          <label>Password</label>
+          <input type="password" id="lPass" placeholder="Your password">
+          <div class="ferr" id="eLPass">Incorrect email or password</div>
+        </div>
+        <button class="btn-auth" onclick="doLogin()">🔐 Login &amp; Open Dashboard</button>
+        <div class="auth-switch">New here? <a onclick="switchTab('reg')">Create account</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     DASHBOARD SCREEN
+     ============================================================ -->
+<div id="dashScreen" class="screen">
+  <nav>
+    <div class="logo">Vyntra <span>Web Shield</span></div>
+    <div class="nav-right">
+      <div class="nav-shield"><div class="shield-dot"></div>Protected</div>
+      <button class="nav-user-btn" id="navUserBtn" onclick="doLogout()">Logout</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-badge">🛡️ Women Safety Platform</div>
+    <h1>Your Safety,<br><em>One Tap Away</em></h1>
+    <p>Advanced real-time protection with SOS alerts, location sharing, evidence capture, and emergency contacts — all in one powerful shield.</p>
+  </section>
+
+  <div class="main-grid">
+
+    <!-- SOS -->
+    <div class="card sos-card">
+      <div class="card-label">Emergency SOS</div>
+      <div class="sos-wrapper">
+        <div class="sos-ring"></div>
+        <div class="sos-ring"></div>
+        <div class="sos-ring"></div>
+        <button class="sos-btn" id="sosBtn" onclick="triggerSOS()">
+          <span class="sos-text">SOS</span>
+          <span class="sos-sub">Press &amp; Hold</span>
+        </button>
+      </div>
+      <div class="sos-status" id="sosStatus">Tap to send emergency alert to all contacts</div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="card">
+      <div class="card-label">Emergency Contacts</div>
+      <div class="contacts-list" id="contactsList"></div>
+      <div class="add-contact-form" id="addContactForm">
+        <input type="text" id="contactName"  placeholder="Name (e.g. Mom)"      maxlength="20">
+        <input type="tel"  id="contactPhone" placeholder="+91 98765 43210"       maxlength="15">
+        <button class="btn-add" onclick="addContact()">+ Add Contact</button>
+      </div>
+      <div class="contacts-count" id="contactsCount">0 / 5 contacts</div>
+    </div>
+
+    <!-- SIREN -->
+    <div class="card siren-card">
+      <div class="card-label">Police Siren</div>
+      <button class="siren-btn" id="sirenBtn" onclick="toggleSiren()">
+        <span class="siren-icon">🚨</span>
+        <span class="siren-label">Siren</span>
+      </button>
+      <div class="siren-bars" id="sirenBars">
+        <div class="siren-bar"></div><div class="siren-bar"></div><div class="siren-bar"></div>
+        <div class="siren-bar"></div><div class="siren-bar"></div><div class="siren-bar"></div>
+        <div class="siren-bar"></div>
+      </div>
+      <div class="siren-status" id="sirenStatus">Tap to activate siren</div>
+    </div>
+
+    <!-- FAKE CALL -->
+    <div class="card call-card">
+      <div class="card-label">Fake Call Escape</div>
+      <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;">Simulate an incoming call from your Dad to escape an uncomfortable situation instantly.</p>
+      <button class="call-trigger-btn" onclick="showFakeCall()">📞 Trigger Fake Call from Dad</button>
+    </div>
+
+    <!-- EVIDENCE -->
+    <div class="card evidence-card" style="grid-column:1/-1;">
+      <div class="card-label">Live Location &amp; Evidence</div>
+      <div class="location-display">
+        <span class="location-icon">📍</span>
+        <div class="location-text">
+          <div id="locationText">Fetching your location…</div>
+          <div class="location-coords" id="locationCoords"></div>
+        </div>
+      </div>
+      <div class="evidence-btns">
+        <button class="ev-btn" id="voiceBtn" onclick="toggleVoice()">
+          <span class="ev-icon">🎙️</span>
+          <span class="ev-label" id="voiceLabel">Record Voice</span>
+        </button>
+        <button class="ev-btn" id="photoBtn" onclick="capturePhoto()">
+          <span class="ev-icon">📸</span>
+          <span class="ev-label">Capture Photo</span>
+        </button>
+      </div>
+      <button class="send-evidence-btn" onclick="sendEvidence()">
+        📤 Send Location &amp; Evidence to Contacts
+      </button>
+    </div>
+
+  </div><!-- /main-grid -->
+
+  <!-- LOG -->
+  <div class="log-card">
+    <div class="log-title">Activity Log</div>
+    <div class="log-feed" id="logFeed">
+      <div class="log-item">
+        <span class="log-ts">--:--:--</span>
+        <span class="log-msg">Vyntra Web Shield initialized. Stay safe. 💜</span>
+      </div>
+    </div>
+  </div>
+
+  <footer><span>Vyntra Web Shield</span> — Empowering Women, One Shield at a Time. Built with 💜</footer>
+</div><!-- /dashScreen -->
+
+
+<!-- CAMERA OVERLAY -->
+<div class="camera-overlay" id="cameraOverlay">
+  <h3>📸 Capture Photo Evidence</h3>
+  <div class="camera-preview-wrap">
+    <video id="cameraVideo" autoplay playsinline muted></video>
+    <canvas id="cameraCanvas"></canvas>
+    <div class="cam-shutter-ring" id="shutterRing"></div>
+  </div>
+  <div class="camera-actions">
+    <button class="cam-btn flip" onclick="flipCamera()" title="Flip camera">🔄 Flip</button>
+    <button class="cam-btn snap" onclick="snapPhoto()" title="Take photo">📷</button>
+    <button class="cam-btn close-cam" onclick="closeCamera()">✕ Close</button>
+  </div>
+  <div class="cam-photo-strip" id="camPhotoStrip"></div>
+  <div class="cam-count" id="camCount"></div>
+  <button class="cam-save-btn" id="camSaveBtn" onclick="saveAllPhotos()">💾 Save All Photos as Evidence</button>
+</div>
+
+<!-- FAKE CALL OVERLAY -->
+<div class="call-overlay" id="callOverlay">
+  <div class="call-time" id="callTimer">Incoming Call</div>
+  <div class="call-caller-pic">👨</div>
+  <div class="call-caller-name">Papa 💚</div>
+  <div class="call-caller-sub">Mobile • India</div>
+  <div class="call-subtitle">Incoming call…</div>
+  <div class="call-message-box">
+    <div class="call-hindi" id="callHindi">"Beta, kahan ho tum? Ghar aa jao, sab theek hai na? Main aa raha hoon tumhare paas, bus 5 minute mein."</div>
+    <div class="call-translation">"Dear, where are you? Come home, is everything okay? I'm on my way to you, just 5 minutes."</div>
+  </div>
+  <div class="call-actions">
+    <div class="call-action">
+      <button class="call-action-btn decline" onclick="endFakeCall()">📵</button>
+      <span>Decline</span>
+    </div>
+    <div class="call-action">
+      <button class="call-action-btn answer" onclick="answerFakeCall()">📞</button>
+      <span>Answer</span>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* ---- STORAGE KEYS ---- */
+const USERS_KEY   = 'vyntra_users';
+const SESSION_KEY = 'vyntra_session';
+
+/* ---- STATE ---- */
+const contacts = [];
+let sirenOn = false, sirenAudio = null;
+let voiceRecording = false, mediaRecorder = null;
+let sosActive = false, userLocation = null;
+let callTimerInterval = null, callSeconds = 0;
+let ringInterval = null, ringAudioCtx = null;
+let dadSpeakTimer = null, dadLineIndex = 0;
+
+const dadLines = [
+  "Beta, kahan ho tum? Mujhe bahut chinta ho rahi hai.",
+  "Ghar aa jao jaldi, sab log tumhara intezaar kar rahe hain.",
+  "Main abhi nikal raha hoon tumhare paas lene ke liye.",
+  "Koi baat nahi beta, main hoon na, bilkul dar mat.",
+  "Bas paanch minute mein pahunch jaata hoon, theek ho na tum?"
+];
+
+/* ---- HELPERS ---- */
+function getUsers()       { try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch(e) { return {}; } }
+function saveUsers(u)     { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+function getSession()     { try { return JSON.parse(sessionStorage.getItem(SESSION_KEY)) || null; } catch(e) { return null; } }
+function saveSession(u)   { sessionStorage.setItem(SESSION_KEY, JSON.stringify(u)); }
+function clearSession()   { sessionStorage.removeItem(SESSION_KEY); }
+function showErr(id, v)   { document.getElementById(id).style.display = v ? 'block' : 'none'; }
+
+/* ---- SCREEN SWITCH ---- */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* ---- TAB SWITCH ---- */
+function switchTab(t) {
+  document.getElementById('tabReg').classList.toggle('active', t === 'reg');
+  document.getElementById('tabLog').classList.toggle('active', t === 'log');
+  document.getElementById('formReg').classList.toggle('active', t === 'reg');
+  document.getElementById('formLog').classList.toggle('active', t === 'log');
+}
+
+/* ---- REGISTER ---- */
+function doRegister() {
+  const name  = document.getElementById('rName').value.trim();
+  const email = document.getElementById('rEmail').value.trim();
+  const phone = document.getElementById('rPhone').value.trim();
+  const pass  = document.getElementById('rPass').value;
+  const conf  = document.getElementById('rConf').value;
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  showErr('eRName',  !name);
+  showErr('eREmail', !emailOk);
+  showErr('eRPhone', !phone);
+  showErr('eRPass',  pass.length < 6);
+  showErr('eRConf',  pass !== conf);
+  if (!name || !emailOk || !phone || pass.length < 6 || pass !== conf) return;
+
+  const users = getUsers();
+  if (users[email]) {
+    showToast('⚠️ Email already registered. Please login.', 'gold');
+    switchTab('log');
+    return;
+  }
+  users[email] = { name, email, phone, hash: btoa(pass), at: new Date().toLocaleString() };
+  saveUsers(users);
+  saveSession({ name, email, phone });
+  launchDashboard(name);
+}
+
+/* ---- LOGIN ---- */
+function doLogin() {
+  const email = document.getElementById('lEmail').value.trim();
+  const pass  = document.getElementById('lPass').value;
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  showErr('eLEmail', !emailOk);
+  showErr('eLPass',  !pass);
+  if (!emailOk || !pass) return;
+
+  const users = getUsers();
+  const user  = users[email];
+  if (!user || btoa(pass) !== user.hash) {
+    showErr('eLPass', true);
+    showToast('⚠️ Invalid email or password', 'gold');
+    return;
+  }
+  saveSession({ name: user.name, email: user.email, phone: user.phone });
+  launchDashboard(user.name);
+}
+
+/* ---- LOGOUT ---- */
+function doLogout() {
+  if (!confirm('Log out of Vyntra Web Shield?')) return;
+  clearSession();
+  contacts.length = 0;
+  if (sirenOn) toggleSiren();
+  sosActive = false;
+  document.getElementById('sosBtn').classList.remove('triggered');
+  document.getElementById('sosBtn').querySelector('.sos-sub').textContent = 'Press & Hold';
+  document.getElementById('sosStatus').textContent = 'Tap to send emergency alert to all contacts';
+  document.getElementById('sosStatus').className = 'sos-status';
+  showScreen('loginScreen');
+  showToast('Logged out successfully', '');
+}
+
+/* ---- LAUNCH DASHBOARD ---- */
+function launchDashboard(name) {
+  document.getElementById('navUserBtn').textContent = '👤 ' + name.split(' ')[0] + ' · Logout';
+  showScreen('dashScreen');
+  getLocation();
+  addLog('Welcome, ' + name + '! Shield is active. 💜', 'safe');
+  if (contacts.length === 0) {
+    addContactData('Mom',         '+911234567890');
+    addContactData('Best Friend', '+919876543210');
+    addContactData('Sister',      '+918765432109');
+  }
+  showToast('✅ Welcome, ' + name.split(' ')[0] + '! SOS is now active.', 'green');
+}
+
+/* ---- AUTO LOGIN ---- */
+window.addEventListener('DOMContentLoaded', () => {
+  const session = getSession();
+  if (session) launchDashboard(session.name);
+});
+
+/* ============================================================
+   DASHBOARD FUNCTIONS
+   ============================================================ */
+
+/* LOG */
+function addLog(msg, type = '') {
+  const feed = document.getElementById('logFeed');
+  const ts   = new Date().toTimeString().slice(0, 8);
+  const item = document.createElement('div');
+  item.className = 'log-item';
+  item.innerHTML = `<span class="log-ts">${ts}</span><span class="log-msg ${type}">${msg}</span>`;
+  feed.appendChild(item);
+  feed.scrollTop = feed.scrollHeight;
+}
+
+/* TOAST */
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+/* LOCATION */
+function getLocation() {
+  if (!navigator.geolocation) {
+    document.getElementById('locationText').textContent = 'Geolocation not supported';
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(pos => {
+    userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+    document.getElementById('locationText').textContent = 'Live location acquired ✓';
+    document.getElementById('locationCoords').textContent =
+      `${userLocation.lat.toFixed(6)}, ${userLocation.lng.toFixed(6)}`;
+    addLog(`Location: ${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)}`, 'safe');
+  }, () => {
+    document.getElementById('locationText').textContent = 'Location access denied — enable in browser';
+    addLog('Location permission denied. Please enable for full safety.', 'warn');
+  }, { enableHighAccuracy: true });
+}
+
+/* CONTACTS */
+function addContactData(name, phone) {
+  if (contacts.length >= 5) return;
+  contacts.push({ name, phone });
+  renderContacts();
+}
+function addContact() {
+  const name  = document.getElementById('contactName').value.trim();
+  const phone = document.getElementById('contactPhone').value.trim();
+  if (!name || !phone) { showToast('⚠️ Enter both name and phone number', 'gold'); return; }
+  if (contacts.length >= 5) { showToast('Maximum 5 contacts allowed', 'gold'); return; }
+  if (contacts.some(c => c.phone === phone)) { showToast('Contact already added', 'gold'); return; }
+  addContactData(name, phone);
+  document.getElementById('contactName').value  = '';
+  document.getElementById('contactPhone').value = '';
+  showToast(`✓ ${name} added as emergency contact`, 'green');
+  addLog(`Contact added: ${name} (${phone})`);
+}
+function removeContact(i) {
+  const removed = contacts.splice(i, 1)[0];
+  renderContacts();
+  addLog(`Contact removed: ${removed.name}`, 'warn');
+}
+function renderContacts() {
+  const list = document.getElementById('contactsList');
+  list.innerHTML = '';
+  contacts.forEach((c, i) => {
+    const initials = c.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+    list.innerHTML += `
+      <div class="contact-item">
+        <div class="contact-avatar">${initials}</div>
+        <div class="contact-info">
+          <div class="contact-name">${c.name}</div>
+          <div class="contact-phone">${c.phone}</div>
+        </div>
+        <button class="contact-del" onclick="removeContact(${i})" title="Remove">✕</button>
+      </div>`;
+  });
+  document.getElementById('contactsCount').textContent = `${contacts.length} / 5 contacts`;
+  document.getElementById('addContactForm').style.display = contacts.length >= 5 ? 'none' : 'grid';
+}
+
+/* SOS */
+function triggerSOS() {
+  if (contacts.length === 0) {
+    showToast('⚠️ Add at least one emergency contact first!', 'gold');
+    addLog('SOS failed — no contacts added', 'warn');
+    return;
+  }
+  sosActive = !sosActive;
+  const btn    = document.getElementById('sosBtn');
+  const status = document.getElementById('sosStatus');
+  if (sosActive) {
+    btn.classList.add('triggered');
+    btn.querySelector('.sos-sub').textContent = 'ACTIVE';
+    status.textContent = '🚨 SOS SENT! Alerting all contacts…';
+    status.className = 'sos-status active';
+    addLog('🚨 SOS TRIGGERED — Sending alerts to all contacts!', 'danger');
+    contacts.forEach(c => {
+      const locMsg = userLocation
+        ? `https://maps.google.com/?q=${userLocation.lat},${userLocation.lng}`
+        : 'Location unavailable';
+      const smsMsg = encodeURIComponent(
+        `🚨 EMERGENCY SOS from Vyntra Web Shield!\nI need help immediately!\n📍 My location: ${locMsg}\nPlease call me or contact authorities.`
+      );
+      addLog(`📤 SMS sent to ${c.name} (${c.phone})`, 'safe');
+      setTimeout(() => {
+        try { const a = document.createElement('a'); a.href = `sms:${c.phone}?body=${smsMsg}`; a.click(); } catch(e) {}
+      }, 500);
+    });
+    showToast(`🚨 SOS Alert sent to all ${contacts.length} contacts!`, 'pink');
+    navigator.vibrate && navigator.vibrate([200, 100, 200, 100, 500]);
+  } else {
+    btn.classList.remove('triggered');
+    btn.querySelector('.sos-sub').textContent = 'Press & Hold';
+    status.textContent = 'Tap to send emergency alert to all contacts';
+    status.className = 'sos-status';
+    addLog('SOS deactivated', '');
+    showToast('SOS deactivated', '');
+  }
+}
+
+/* SIREN */
+function toggleSiren() {
+  sirenOn = !sirenOn;
+  const btn     = document.getElementById('sirenBtn');
+  const status  = document.getElementById('sirenStatus');
+  const overlay = document.getElementById('sirenOverlay');
+  if (sirenOn) {
+    btn.classList.add('on');
+    status.textContent = '🚨 Siren ACTIVE — Tap to stop';
+    status.className = 'siren-status on';
+    overlay.classList.add('on');
+    addLog('Police siren activated 🚨', 'warn');
+    showToast('🚨 Siren ON — stay safe!', 'pink');
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      sirenAudio = new AC();
+      playSiren(sirenAudio);
+    } catch(e) { addLog('Audio API unavailable', 'warn'); }
+  } else {
+    btn.classList.remove('on');
+    status.textContent = 'Tap to activate siren';
+    status.className = 'siren-status';
+    overlay.classList.remove('on');
+    if (sirenAudio) { sirenAudio.close(); sirenAudio = null; }
+    addLog('Siren deactivated', '');
+    showToast('Siren turned off', '');
+  }
+}
+function playSiren(ctx) {
+  if (!sirenOn || !sirenAudio) return;
+  const osc  = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.type = 'sawtooth';
+  gain.gain.setValueAtTime(0.3, ctx.currentTime);
+  osc.frequency.setValueAtTime(600,  ctx.currentTime);
+  osc.frequency.linearRampToValueAtTime(1200, ctx.currentTime + 0.7);
+  osc.frequency.linearRampToValueAtTime(600,  ctx.currentTime + 1.4);
+  osc.start(ctx.currentTime);
+  osc.stop(ctx.currentTime + 1.4);
+  osc.onended = () => { if (sirenOn && sirenAudio) setTimeout(() => playSiren(sirenAudio), 50); };
+}
+
+/* FAKE CALL */
+function showFakeCall() {
+  document.getElementById('callOverlay').classList.add('active');
+  callSeconds = 0; dadLineIndex = 0;
+  document.getElementById('callTimer').textContent = 'Incoming Call';
+  addLog('Fake call from Papa initiated 📞', 'safe');
+  navigator.vibrate && navigator.vibrate([600, 300, 600, 300, 600]);
+  startRinging();
+}
+function startRinging() {
+  stopRinging();
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    ringAudioCtx = new AC();
+    playRingOnce(ringAudioCtx);
+    ringInterval = setInterval(() => { if (ringAudioCtx) playRingOnce(ringAudioCtx); }, 2500);
+  } catch(e) {}
+}
+function stopRinging() {
+  if (ringInterval)  { clearInterval(ringInterval); ringInterval = null; }
+  if (ringAudioCtx)  { try { ringAudioCtx.close(); } catch(e) {} ringAudioCtx = null; }
+}
+function playRingOnce(ctx) {
+  [{ f:1050,s:0,d:.12},{ f:1050,s:.14,d:.12},{ f:880,s:.28,d:.12},{ f:1050,s:.42,d:.12},{ f:880,s:.56,d:.12}]
+    .forEach(({ f, s, d }) => {
+      const osc = ctx.createOscillator(), g = ctx.createGain();
+      osc.connect(g); g.connect(ctx.destination);
+      osc.type = 'sine'; osc.frequency.value = f;
+      const t0 = ctx.currentTime + s;
+      g.gain.setValueAtTime(0, t0);
+      g.gain.linearRampToValueAtTime(0.35, t0 + 0.02);
+      g.gain.linearRampToValueAtTime(0.35, t0 + d - 0.02);
+      g.gain.linearRampToValueAtTime(0,    t0 + d);
+      osc.start(t0); osc.stop(t0 + d + 0.01);
+    });
+}
+function answerFakeCall() {
+  stopRinging();
+  document.getElementById('callTimer').textContent = '00:00';
+  addLog('Fake call answered — Papa speaking…', 'safe');
+  callTimerInterval = setInterval(() => {
+    callSeconds++;
+    const m = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+    const s = String(callSeconds % 60).padStart(2, '0');
+    document.getElementById('callTimer').textContent = `${m}:${s}`;
+  }, 1000);
+  setTimeout(() => speakDadLine(), 1000);
+}
+function speakDadLine() {
+  if (!window.speechSynthesis) {
+    showToast('⚠️ Speech not supported. Try Chrome.', 'gold');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const line = dadLines[dadLineIndex % dadLines.length];
+  dadLineIndex++;
+  document.getElementById('callHindi').textContent = `"${line}"`;
+  const utter = new SpeechSynthesisUtterance(line);
+  utter.lang = 'hi-IN'; utter.rate = 0.88; utter.pitch = 0.85; utter.volume = 1.0;
+  const voices = window.speechSynthesis.getVoices();
+  const hv = voices.find(v => v.lang === 'hi-IN' || v.lang.startsWith('hi'));
+  if (hv) utter.voice = hv;
+  utter.onend = () => { dadSpeakTimer = setTimeout(() => speakDadLine(), dadLineIndex < dadLines.length ? 2000 : 3000); };
+  window.speechSynthesis.speak(utter);
+  addLog(`Papa: "${line.slice(0, 40)}…"`, 'safe');
+}
+function endFakeCall() {
+  stopRinging();
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  if (dadSpeakTimer)    { clearTimeout(dadSpeakTimer);          dadSpeakTimer = null; }
+  if (callTimerInterval){ clearInterval(callTimerInterval);     callTimerInterval = null; }
+  document.getElementById('callOverlay').classList.remove('active');
+  document.getElementById('callTimer').textContent = 'Incoming Call';
+  callSeconds = 0; dadLineIndex = 0;
+  document.getElementById('callHindi').textContent =
+    '"Beta, kahan ho tum? Ghar aa jao, sab theek hai na? Main aa raha hoon tumhare paas, bus 5 minute mein."';
+  addLog('Fake call ended', '');
+}
+
+/* VOICE RECORDING */
+function toggleVoice() {
+  const btn   = document.getElementById('voiceBtn');
+  const label = document.getElementById('voiceLabel');
+  if (!voiceRecording) {
+    if (!navigator.mediaDevices) { showToast('Microphone not accessible', 'gold'); return; }
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+      mediaRecorder = new MediaRecorder(stream);
+      const chunks = [];
+      mediaRecorder.ondataavailable = e => chunks.push(e.data);
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'audio/webm' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href = url; a.download = 'vyntra-evidence.webm'; a.click();
+        addLog('Voice evidence saved ✓', 'safe');
+        showToast('✓ Voice evidence saved!', 'green');
+      };
+      mediaRecorder.start();
+      voiceRecording = true;
+      btn.classList.add('active');
+      label.textContent = '⏹ Stop Recording';
+      addLog('🎙️ Voice recording started', 'warn');
+      showToast('🎙️ Recording…', 'pink');
+    }).catch(() => {
+      showToast('Microphone permission denied', 'gold');
+      addLog('Mic permission denied', 'warn');
+    });
+  } else {
+    mediaRecorder && mediaRecorder.stop();
+    voiceRecording = false;
+    btn.classList.remove('active');
+    label.textContent = 'Record Voice';
+  }
+}
+
+/* PHOTO — full camera */
+let cameraStream  = null;
+let facingMode    = 'environment'; // rear cam first
+let capturedPhotos = [];           // array of dataURLs
+
+async function capturePhoto() {
+  capturedPhotos = [];
+  document.getElementById('camPhotoStrip').innerHTML = '';
+  document.getElementById('camCount').textContent = '';
+  document.getElementById('camSaveBtn').classList.remove('visible');
+  document.getElementById('cameraOverlay').classList.add('active');
+  await startCameraStream();
+}
+
+async function startCameraStream() {
+  // Stop any existing stream
+  if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode, width: { ideal: 1280 }, height: { ideal: 960 } },
+      audio: false
+    });
+    const video = document.getElementById('cameraVideo');
+    video.srcObject = cameraStream;
+    await video.play();
+  } catch(err) {
+    showToast('⚠️ Camera permission denied or not available', 'gold');
+    addLog('Camera access denied: ' + err.message, 'warn');
+    closeCamera();
+  }
+}
+
+function flipCamera() {
+  facingMode = facingMode === 'environment' ? 'user' : 'environment';
+  startCameraStream();
+}
+
+function snapPhoto() {
+  const video  = document.getElementById('cameraVideo');
+  const canvas = document.getElementById('cameraCanvas');
+  const ring   = document.getElementById('shutterRing');
+
+  canvas.width  = video.videoWidth  || 640;
+  canvas.height = video.videoHeight || 480;
+  const ctx = canvas.getContext('2d');
+
+  // Mirror if using front cam
+  if (facingMode === 'user') {
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
+  }
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  const dataURL = canvas.toDataURL('image/jpeg', 0.92);
+  capturedPhotos.push(dataURL);
+
+  // Shutter flash
+  ring.classList.remove('flash');
+  void ring.offsetWidth; // reflow
+  ring.classList.add('flash');
+
+  // Add thumbnail to strip
+  const strip = document.getElementById('camPhotoStrip');
+  const img   = document.createElement('img');
+  img.src = dataURL;
+  img.className = 'cam-thumb';
+  img.title = 'Click to download';
+  img.onclick = () => downloadPhoto(dataURL, capturedPhotos.indexOf(dataURL) + 1);
+  strip.appendChild(img);
+
+  // Update count & show save button
+  document.getElementById('camCount').textContent =
+    capturedPhotos.length + ' photo' + (capturedPhotos.length > 1 ? 's' : '') + ' captured';
+  document.getElementById('camSaveBtn').classList.add('visible');
+
+  addLog(`📸 Photo ${capturedPhotos.length} captured ✓`, 'safe');
+  showToast(`✓ Photo ${capturedPhotos.length} captured!`, 'green');
+  navigator.vibrate && navigator.vibrate([80]);
+}
+
+function downloadPhoto(dataURL, index) {
+  const a = document.createElement('a');
+  a.href = dataURL;
+  a.download = `vyntra-evidence-photo-${index}.jpg`;
+  a.click();
+}
+
+function saveAllPhotos() {
+  if (capturedPhotos.length === 0) return;
+  capturedPhotos.forEach((url, i) => downloadPhoto(url, i + 1));
+  addLog(`💾 ${capturedPhotos.length} photo(s) saved as evidence ✓`, 'safe');
+  showToast(`✓ ${capturedPhotos.length} photo(s) saved!`, 'green');
+}
+
+function closeCamera() {
+  if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+  document.getElementById('cameraOverlay').classList.remove('active');
+  if (capturedPhotos.length > 0) {
+    addLog(`Camera closed. ${capturedPhotos.length} photo(s) captured.`, 'safe');
+  } else {
+    addLog('Camera closed.', '');
+  }
+}
+
+/* SEND EVIDENCE */
+function sendEvidence() {
+  if (contacts.length === 0) { showToast('⚠️ Add emergency contacts first', 'gold'); return; }
+  const locStr = userLocation
+    ? `https://maps.google.com/?q=${userLocation.lat},${userLocation.lng}`
+    : 'Location not available';
+  contacts.forEach(c => {
+    const msg = encodeURIComponent(
+      `📡 Vyntra Web Shield — Evidence Report\n` +
+      `━━━━━━━━━━━━━━━━━━\n` +
+      `📍 Live Location: ${locStr}\n` +
+      `🕒 Time: ${new Date().toLocaleString()}\n` +
+      `━━━━━━━━━━━━━━━━━━\n` +
+      `Please ensure safety immediately!`
+    );
+    addLog(`📤 Evidence + location sent to ${c.name}`, 'safe');
+    try { const a = document.createElement('a'); a.href = `sms:${c.phone}?body=${msg}`; a.click(); } catch(e) {}
+  });
+  showToast(`✓ Evidence sent to ${contacts.length} contacts!`, 'green');
+  addLog('Evidence bundle sent to all contacts ✓', 'safe');
+}
+
+/* Preload speech voices */
+if (window.speechSynthesis) {
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+}
+</script>
+</body>
+</html>
